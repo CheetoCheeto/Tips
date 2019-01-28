@@ -31,10 +31,13 @@
 * iOS拍摄的照片 在上传时部分会旋转 使用exif.js解决
 
 * html2canvas的一些大坑
-1. 不同内核下，表现不同，图片导出时有可能是透明图，在option中宽高乘2可解，但也会造成部分浏览器图片大小为四分之一
-2. 无法将background导出为canvas。修改原文件可以解决，见[这里](https://github.com/niklasvh/html2canvas/issues/265)
-3. 没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有access-control-allow-orgin：*
-4. emoji无法转为canvas，暂时没想到办法，用了个◾️replace掉了emoji
+    1. 不同内核下，表现不同，图片导出时有可能是透明图，在option中宽高乘2可解，但也会造成部分浏览器图片大小为四分之一
+
+    2. 无法将background导出为canvas。修改原文件可以解决，见[这里](https://github.com/niklasvh/html2canvas/issues/265)
+
+    3. 没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有access-control-allow-orgin：*
+
+    4. emoji无法转为canvas，暂时没想到办法，用了个◾️replace掉了emoji
 
 ## 一些小提示
 
