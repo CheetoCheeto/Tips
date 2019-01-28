@@ -56,11 +56,28 @@
 
 ## 一些函数
 
+* 一个图片预加载函数
 ```js
-var canvas = document.getElementById("test");
-var context = canvas.getContext('2d');
-
-domvas.toImage(document.getElementById("dom"), function() {
-    context.drawImage(this, 20, 20);
-});
+    /**
+        * @param {Object} sources
+        * @param {Function} callback
+        */
+    function preLoadImages(sources, callback) {
+        var cacheImages = {};
+        var index = 0;
+        var attCount = Object.getOwnPropertyNames(sources).length;
+        for (imgItem in sources) {
+            cacheImages[imgItem] = new Image();
+            cacheImages[imgItem].onload = function () {
+                index++;
+                if (index == attCount) {
+                    images = cacheImages;
+                    if (typeof callback === "function") {
+                        callback();
+                    }
+                }
+            }
+            cacheImages[imgItem].src = sources[imgItem];
+        }
+    }
 ```
