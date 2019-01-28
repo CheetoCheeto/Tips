@@ -54,11 +54,11 @@
 * 文档流内块级元素```width```默认值为100%；由父元素的```content```决定；脱离文档流的元素```float，position```宽度变为```auto```
 * 关于JavaScript中定时器的[工作原理](https://johnresig.com/blog/how-javascript-timers-work/#postcomment)
 * 一个图片预加载函数
-                    ```js
-                    var canvas = document.getElementById("test");
-                    var context = canvas.getContext('2d');
+        ```js
+        var canvas = document.getElementById("test");
+        var context = canvas.getContext('2d');
 
-                    domvas.toImage(document.getElementById("dom"), function() {
-                        context.drawImage(this, 20, 20);
-                    });
-                    ```
+        domvas.toImage(document.getElementById("dom"), function() {
+            context.drawImage(this, 20, 20);
+        });
+        ```
