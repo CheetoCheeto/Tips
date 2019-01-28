@@ -31,15 +31,16 @@
 * iOS拍摄的照片 在上传时部分会旋转 使用exif.js解决
 
 * html2canvas的一些大坑
-    1. 不同内核下，表现不同，图片导出时有可能是透明图，在option中宽高乘2可解，但也会造成部分浏览器图片大小为四分之一
 
-    2. 无法将background导出为canvas。改轮子可以解决，见[这里](https://github.com/niklasvh/html2canvas/issues/265)
+    1.不同内核下，表现不同，图片导出时有可能是透明图，在option中宽高乘2可解，但也会造成部分浏览器图片大小为四分之一
 
-    3. 没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有access-control-allow-orgin：*
+    2.无法将background导出为canvas。改轮子可以解决，见[这里](https://github.com/niklasvh/html2canvas/issues/265)
 
-    4. emoji无法转为canvas，暂时没想到办法，用了个◾️replace掉了emoji
+    3.没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有access-control-allow-orgin：*
 
-    5. 总的来说，想要完美使用html2canvas，改轮子是必不可少的一步，针对哪些问题的具体操作，google上有很详细的方式
+    4.emoji无法转为canvas，暂时没想到办法，用了个◾️replace掉了emoji
+
+    5.总的来说，想要完美使用html2canvas，改轮子是必不可少的一步，针对哪些问题的具体操作，google上有很详细的方式
 
 ## 一些小提示
 
@@ -52,3 +53,25 @@
 * 元素被设置为浮动元素后，```display```属性为```block```同时像```inline```元素一样有包裹性
 * 文档流内块级元素```width```默认值为100%；由父元素的```content```决定；脱离文档流的元素```float，position```宽度变为```auto```
 * 关于JavaScript中定时器的[工作原理](https://johnresig.com/blog/how-javascript-timers-work/#postcomment)
+* 一个图片预加载函数 ```/**
+                       * @param {Object} sources
+                       * @param {Function} callback
+                       */
+                    function preLoadImages(sources, callback) {
+                        var cacheImages = {};
+                        var index = 0;
+                        var attCount = Object.getOwnPropertyNames(sources).length;
+                        for (imgItem in sources) {
+                            cacheImages[imgItem] = new Image();
+                            cacheImages[imgItem].onload = function () {
+                                index++;
+                                if (index == attCount) {
+                                    images = cacheImages;
+                                    if (typeof callback === "function") {
+                                        callback();
+                                    }
+                                }
+                            }
+                            cacheImages[imgItem].src = sources[imgItem];
+                        }
+                    }```
