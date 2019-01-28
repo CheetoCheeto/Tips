@@ -53,7 +53,8 @@
 * 元素被设置为浮动元素后，```display```属性为```block```同时像```inline```元素一样有包裹性
 * 文档流内块级元素```width```默认值为100%；由父元素的```content```决定；脱离文档流的元素```float，position```宽度变为```auto```
 * 关于JavaScript中定时器的[工作原理](https://johnresig.com/blog/how-javascript-timers-work/#postcomment)
-* 一个图片预加载函数 ```js
+* 一个图片预加载函数 
+                    ```js
                        /**
                        * @param {Object} sources
                        * @param {Function} callback
@@ -75,4 +76,5 @@
                             }
                             cacheImages[imgItem].src = sources[imgItem];
                         }
-                    }```
+                    }
+                    ```
