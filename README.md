@@ -75,6 +75,4 @@
                             }
                             cacheImages[imgItem].src = sources[imgItem];
                         }
-                    }
-                ```
-
+                    }```
