@@ -42,6 +42,8 @@
 
     5.总的来说，想要完美使用html2canvas，改轮子是必不可少的一步，针对哪些问题的具体操作，google上有很详细的方式
 
+* safari时间戳转换日期会慢一天（夏时令原因，chorme内1986年到1991的时间戳转换实行夏时令）
+
 ## 一些小提示
 
 * ```:checked```伪类可以被用于```checkbox、radio、option(select)```元素
@@ -61,7 +63,7 @@
     /**
         * @param {Object} sources
         * @param {Function} callback
-        */
+    */
     function preLoadImages(sources, callback) {
         var cacheImages = {};
         var index = 0;
@@ -80,4 +82,39 @@
             cacheImages[imgItem].src = sources[imgItem];
         }
     }
+```
+
+* 防抖与节流函数
+```js
+    function debounce(fn) {
+        let timeout = null; // 创建一个标记用来存放定时器的返回值
+        return function () {
+            clearTimeout(timeout); // 每当用户输入的时候把前一个 setTimeout clear 掉
+            timeout = setTimeout(() => { // 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+            fn.apply(this, arguments);
+            }, 500);
+        };
+    }
+    function sayHi() {
+        console.log('防抖成功');
+    }
+    var inp = document.getElementById('inp');
+    inp.addEventListener('input', debounce(sayHi)); // 防抖
+
+    function throttle(fn) {
+        let canRun = true; // 通过闭包保存一个标记
+        return function () {
+            if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
+            canRun = false; // 立即设置为false
+            setTimeout(() => { // 将外部传入的函数的执行放在setTimeout中
+            fn.apply(this, arguments);
+            // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
+            canRun = true;
+            }, 500);
+        };
+    }
+    function sayHi(e) {
+        console.log(e.target.innerWidth, e.target.innerHeight);
+    }
+    window.addEventListener('resize', throttle(sayHi));
 ```
