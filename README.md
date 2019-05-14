@@ -48,6 +48,7 @@
 
 * ```:checked```伪类可以被用于```checkbox、radio、option(select)```元素
 * CSS伪类选择器中 ```not()```括号中的选择器也占权值
+* flex 布局 + margin-right/margin-left：auto 在某些情况有奇效
 * img标签无论如何**都**会被加载
 * 没有用到的CSS元素 和 【父】元素```display:none```的元素的bg**不**会被加载
 * 跨域请求中的简单请求与非简单请求[会发送option请求]
