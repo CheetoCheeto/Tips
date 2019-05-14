@@ -118,3 +118,95 @@
     }
     window.addEventListener('resize', throttle(sayHi));
 ```
+
+
+* QQ打开H5 title不会变化问题
+    手动创建iframe，添加到body后移除可以触发QQ刷新title操作，但是这种方法对于直接点击对话中的链接打开的H5无效，扫码与空间打开有效，暂不知道QQ的处理逻辑
+
+* 禁止移动端H5滑动回弹
+```js
+    let startY = 0;
+    let enabled = false;
+    let supportsPassiveOption = false;
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassiveOption = true;
+            }
+        });
+        window.addEventListener('test', null, opts);
+    } catch (e) {}
+    var handleTouchmove = function (evt) {
+        var el = evt.target;
+        var zoom = window.innerWidth / window.document.documentElement.clientWidth;
+        if (evt.touches.length > 1 || zoom !== 1) {
+            return;
+        }
+        while (el !== document.body && el !== document) {
+            var style = window.getComputedStyle(el);
+            if (!style) {
+                break;
+            }
+            if (el.nodeName === 'INPUT' && el.getAttribute('type') === 'range') {
+                return;
+            }
+            var scrolling = style.getPropertyValue('-webkit-overflow-scrolling');
+            var overflowY = style.getPropertyValue('overflow-y');
+            var height = parseInt(style.getPropertyValue('height'), 10);
+            var isScrollable = scrolling === 'touch' && (overflowY === 'auto' || overflowY === 'scroll');
+            var canScroll = el.scrollHeight > el.offsetHeight;
+            if (isScrollable && canScroll) {
+                var curY = evt.touches
+                    ? evt.touches[0].screenY
+                    : evt.screenY;
+                var isAtTop = (startY <= curY && el.scrollTop === 0);
+                var isAtBottom = (startY >= curY && el.scrollHeight - el.scrollTop === height);
+                if (isAtTop || isAtBottom) {
+                    evt.preventDefault();
+                }
+                return;
+            }
+            el = el.parentNode;
+        }
+        evt.preventDefault();
+    };
+    var handleTouchstart = function (evt) {
+        startY = evt.touches
+            ? evt.touches[0].screenY
+            : evt.screenY;
+    };
+    var enable = function () {
+        window.addEventListener('touchstart', handleTouchstart, supportsPassiveOption
+            ? {
+                passive: false
+            }
+            : false);
+        window.addEventListener('touchmove', handleTouchmove, supportsPassiveOption
+            ? {
+                passive: false
+            }
+            : false);
+        enabled = true;
+    };
+    var disable = function () {
+        window.removeEventListener('touchstart', handleTouchstart, false);
+        window.removeEventListener('touchmove', handleTouchmove, false);
+        enabled = false;
+    };
+    var isEnabled = function () {
+        return enabled;
+    };
+    var testDiv = document.createElement('div');
+    document.documentElement.appendChild(testDiv);
+    testDiv.style.WebkitOverflowScrolling = 'touch';
+    var scrollSupport = 'getComputedStyle' in window && window.getComputedStyle(testDiv)['-webkit-overflow-scrolling'] === 'touch';
+    document.documentElement.removeChild(testDiv);
+    if (scrollSupport) {
+        enable();
+    }
+    export default {
+        enable,
+        disable,
+        isEnabled
+    }
+```
