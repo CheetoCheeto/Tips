@@ -2,7 +2,8 @@
 
 * iPhone X适配
 
-    1.采用了viewport-fit的meta标签作为适配方案 ```viewport-fit:cover``` 来填充屏幕
+    1.采用了viewport-fit的meta标签作为适配方案 ```viewport-fit:cover``` 来填充屏幕,
+    使用constant(safe-area-inset-bottom)  env(safe-area-inset-bottom)来避开危险区域
 
     2.```@media only screen and (width: 375px) and (height: 690px){
             body {
@@ -43,7 +44,14 @@
     5.总的来说，想要完美使用html2canvas，改轮子是必不可少的一步，针对哪些问题的具体操作，google上有很详细的方式
 
 * safari时间戳转换日期会慢一天（chorme实行夏时令原因，1986年到1991的时间戳转换实行夏时令）
+
 * ajax 回调中使用window.open（）会被浏览器判定为广告从而被拦截
+
+* 大于等于 12px 的奇数字号在Android上垂直居中表现怪异（偏上），可以用一下方法解决
+
+    1.字体调整为大于12px的偶数字体同时```border:1px solid transparent```
+
+    2.利用transform:scale & transition 解决
 
 ## 一些小提示
 
