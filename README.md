@@ -3,7 +3,7 @@
 * iPhone X适配
 
     1.采用了viewport-fit的meta标签作为适配方案 ```viewport-fit:cover``` 来填充屏幕,
-    使用constant(safe-area-inset-bottom)  env(safe-area-inset-bottom)来避开危险区域
+    使用constant(safe-area-inset-bottom)  env(safe-area-inset-bottom)值来避开危险区域
 
     2.```@media only screen and (width: 375px) and (height: 690px){
             body {
@@ -37,7 +37,7 @@
 
     2.无法将background导出为canvas。改轮子可以解决，见[这里](https://github.com/niklasvh/html2canvas/issues/265)
 
-    3.没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有access-control-allow-orgin：*
+    3.没有开启跨域的图片也是无法变为canvas的，服务器开跨域即可，即res中含有```access-control-allow-orgin：*```
 
     4.emoji无法转为canvas，暂时没想到办法，用了个◾️replace掉了emoji
 
@@ -47,11 +47,19 @@
 
 * ajax 回调中使用window.open（）会被浏览器判定为广告从而被拦截
 
-* 大于等于 12px 的奇数字号在Android上垂直居中表现怪异（偏上），可以用一下方法解决
+* 大于等于 12px 的奇数字号在Android上垂直居中表现怪异（偏上），可以用以下方法解决
 
     1.字体调整为大于12px的偶数字体同时```border:1px solid transparent```
 
-    2.利用transform:scale & transition 解决
+    2.利用```transform:scale``` & ```transition``` 解决
+
+* CSS ```touch-action``` 改变touch事件行为
+
+* CSS ```will-change``` 属性会改变元素的层级
+
+* 目前Android版QQ在touch事件怪异表现：页面ScrollTop为0时，touch事件触发调整进度条等，轻微上下滑动会触发webview下滑导致滑动事件取消造成滑动断断续续的效果体验不好，在touchmove事件最后加上```event.preventDefault()```即可
+
+* Andriod版QQ会监听视频播放，使用video模拟音频直播时，如果video标签离开用户视窗就会另开一个小窗口播放影响体验，video设为width:0,height:100%即可
 
 ## 一些小提示
 
@@ -132,6 +140,7 @@
 
 * QQ打开H5 title不会变化问题
     手动创建iframe，添加到body后移除可以触发QQ刷新title操作，但是这种方法对于直接点击对话中的链接打开的H5无效，扫码与空间打开有效，暂不知道QQ的处理逻辑
+
 
 * 禁止移动端H5滑动回弹
 ```js
